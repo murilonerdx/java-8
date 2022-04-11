@@ -1,9 +1,8 @@
 package com.murilonerdx.java8;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 class Curso {
     private String nome;
@@ -54,6 +53,32 @@ class Curso {
                     .sum();
 
             System.out.println(sum);
+
+            Optional<Curso> optionalCurso = cursos.stream()
+                    .filter(c -> c.getAlunos() >= 100)
+                    .findAny();
+
+            Curso curso = optionalCurso.get();
+
+            cursos.stream()
+                    .filter(c -> c.getAlunos() >= 100)
+                    .collect(Collectors.toList());
+
+            Map<String, Integer> collect = cursos.stream()
+                    .filter(c -> c.getAlunos() >= 100)
+                    .collect(Collectors.toMap(
+                            Curso::getNome,
+                            Curso::getAlunos
+                    ));
+
+            System.out.println(collect);
+
+            cursos.stream()
+                    .filter(c -> c.getAlunos() >= 100)
+                    .collect(Collectors.toMap(
+                            Curso::getNome,
+                            Curso::getAlunos
+                    )).forEach((s1, s2) -> System.out.printf("O curso %s tem %d alunos\n", s1, s2));
 
         }
     }
